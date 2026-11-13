@@ -4,16 +4,27 @@ import "fmt"
 
 // statusLabel превращает код статуса в понятную человеку подпись.
 func statusLabel(status string) string {
-	// TODO: обработайте new, in_progress, done через switch.
-	// TODO: предусмотрите ветку default для незнакомого статуса.
-	return "Добавьте перевод статуса"
+	switch status {
+	case "new":
+		return "Новая"
+	case "in_progress":
+		return "В работе"
+	case "done":
+		return "Завершена"
+	default:
+		return "Неизвестный статус"
+	}
 }
 
 // countStatus считает количество элементов с заданным статусом.
 func countStatus(statuses []string, target string) int {
-	// TODO: пройдите по срезу через for range.
-	// TODO: сравните каждый элемент с target и верните счётчик.
-	return 0
+	count := 0
+	for _, status := range statuses {
+		if status == target {
+			count++
+		}
+	}
+	return count
 }
 
 func main() {
