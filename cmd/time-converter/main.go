@@ -17,8 +17,11 @@ func main() {
 		return
 	}
 
+	var minutesInHour int = 60
+	var fullHours int = totalMinutes / minutesInHour
+	var remainingMinutes int = totalMinutes - 60*fullHours
 	// TODO: объявите константу — количество минут в одном часе.
 	// TODO: вычислите полные часы и оставшиеся минуты.
 	// TODO: выведите результаты в формате задания 3.
-	fmt.Printf("Получено минут: %d. Добавьте вычисления.\n", totalMinutes)
+	fmt.Printf("Полных часов: %d. Оставшихся минут: %d.\n", fullHours, remainingMinutes)
 }
