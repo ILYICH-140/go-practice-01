@@ -5,8 +5,8 @@
 ## Окружение
 
 - Операционная система: 
-  -Debian GNU/Linux 13 (trixie) – основная среда
-  -Windows 11 Pro – дополнительная среда 
+   - Debian GNU/Linux 13 (trixie) – основная среда
+  - Windows 11 Pro – дополнительная среда 
 - Версия Go: go version go1.27.4 linux/amd64
 - Редактор: VS code
 
