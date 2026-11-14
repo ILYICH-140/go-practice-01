@@ -4,9 +4,11 @@
 
 ## Окружение
 
-- Операционная система: Debian GNU/Linux 13 (trixie)
-- Версия Go: go version go1.27.4 linux/amd64
-- Редактор: VS code
+- **Операционные системы:**
+  - Debian GNU/Linux 13 (trixie) — основная среда
+  - Windows 11 Pro — дополнительная среда
+- **Go:** 1.27.4 (linux/amd64)
+- **Редактор:** Visual Studio Code
 
 ## Выполнено
 
