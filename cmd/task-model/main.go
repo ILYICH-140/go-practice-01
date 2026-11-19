@@ -26,7 +26,6 @@ func (t *Task) SetPriority(priority int) bool {
 }
 
 func findTaskByID(tasks []Task, id int) *Task {
-	// TODO: верните &tasks[i] при совпадении, иначе nil.
 	for i, task := range tasks {
 		if task.ID == id {
 			return &tasks[i]
@@ -41,15 +40,19 @@ func main() {
 		{ID: 2, Title: "Освоить функции", Status: "in_progress", Priority: 2},
 		{ID: 3, Title: "Изучить структуры", Status: "new", Priority: 3},
 	}
+
+	task2 := findTaskByID(tasks, 2)
+	task2.Complete()
+	task2.SetPriority(3)
+
 	for _, task := range tasks {
 		fmt.Println(task.Summary())
 	}
-	// TODO: найдите ID=2, завершите и установите приоритет 3.
-	// TODO: посчитайте завершённые задачи.
+	var count int = 0
 	for _, task := range tasks {
-		fmt.Println(task.Summary())
+		if task.Status == "done" {
+			count++
+		}
 	}
-	if findTaskByID(tasks, 99) == nil {
-		fmt.Println("Задача не найдена")
-	}
+	fmt.Println("Количество завершённых задач: ", count)
 }
