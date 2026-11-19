@@ -27,6 +27,30 @@ func countStatus(statuses []string, target string) int {
 	return count
 }
 
+func findStatus(statuses []string, target string) int {
+	for index, status := range statuses {
+		if status == target {
+			return index
+		}
+	}
+	return -1
+}
+
+func completionPercent(statuses []string) float64 {
+	completedTASKS := 0
+	var lastINDEX int
+	for index, status := range statuses {
+		if status == "done" {
+			completedTASKS++
+			lastINDEX = index
+		}
+	}
+	if completedTASKS == 0 {
+		return 0
+	}
+	return float64(100 * completedTASKS / lastINDEX)
+}
+
 func main() {
 	statuses := []string{"new", "in_progress", "done", "done"}
 	statuses = append(statuses, "new")
@@ -42,10 +66,9 @@ func main() {
 		counts[status]++
 	}
 	fmt.Print("Статистика: ")
-	// for key, value := range counts {
-	// 	fmt.Printf("%s=%d ", key, value)
-	// }
 	fmt.Print("new=", counts["new"], ", ")
 	fmt.Print("in_progress=", counts["in_progress"], ", ")
 	fmt.Print("done=", counts["done"], "\n")
+
+	fmt.Println("Выполнено ", completionPercent(statuses), "% заданий")
 }
