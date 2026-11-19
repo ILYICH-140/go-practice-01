@@ -34,6 +34,16 @@ func findTaskByID(tasks []Task, id int) *Task {
 	return nil
 }
 
+func tasksByStatus(tasks []Task, status string) []Task {
+	arr := []Task{}
+	for _, task := range tasks {
+		if task.Status == status {
+			arr = append(arr, task)
+		}
+	}
+	return arr
+}
+
 func main() {
 	tasks := []Task{
 		{ID: 1, Title: "Установить Go", Status: "done", Priority: 1},
@@ -48,11 +58,12 @@ func main() {
 	for _, task := range tasks {
 		fmt.Println(task.Summary())
 	}
-	var count int = 0
-	for _, task := range tasks {
-		if task.Status == "done" {
-			count++
-		}
-	}
-	fmt.Println("Количество завершённых задач: ", count)
+	// var count int = 0
+	// for _, task := range tasks {
+	// 	if task.Status == "done" {
+	// 		count++
+	// 	}
+	// }
+	// fmt.Println("Количество завершённых задач: ", count)
+	fmt.Println("Количество завершённых задач: ", len(tasksByStatus(tasks, "done")))
 }
