@@ -45,7 +45,6 @@ func (s *MemoryStore) Add(title string, priority int) (Task, error) {
 	s.tasks = append(s.tasks, task)
 	s.nextID++
 	return task, nil
-	// return Task{}, ErrInvalid
 }
 
 func (s *MemoryStore) Get(id int) (Task, error) {
@@ -58,12 +57,22 @@ func (s *MemoryStore) Get(id int) (Task, error) {
 }
 
 func (s *MemoryStore) Complete(id int) error {
-	// TODO: изменяйте s.tasks[i], а не копию.
+	for i := range s.tasks {
+		if s.tasks[i].ID == id {
+			s.tasks[i].Status = "done"
+			return nil
+		}
+	}
 	return ErrNotFound
 }
 
 func (s *MemoryStore) Delete(id int) error {
-	// TODO: удалите задачу по индексу.
+	for i, task := range s.tasks {
+		if task.ID == id {
+			s.tasks = append(s.tasks[:i], s.tasks[i+1:]...)
+			return nil
+		}
+	}
 	return ErrNotFound
 }
 
