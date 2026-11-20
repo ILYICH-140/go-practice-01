@@ -27,6 +27,7 @@ type TaskStore interface {
 	Complete(id int) error
 	Delete(id int) error
 	List() []Task
+	Filter(status string) []Task
 }
 
 type MemoryStore struct {
@@ -80,6 +81,16 @@ func (s *MemoryStore) List() []Task {
 	return append([]Task(nil), s.tasks...)
 }
 
+func (s *MemoryStore) Filter(status string) []Task {
+	var filtered []Task
+	for _, task := range s.tasks {
+		if task.Status == status {
+			filtered = append(filtered, task)
+		}
+	}
+	return filtered
+}
+
 func readLine(scanner *bufio.Scanner, prompt string) (string, bool) {
 	fmt.Print(prompt)
 	if !scanner.Scan() {
@@ -101,7 +112,7 @@ func report(err error) {
 func run(store TaskStore, scanner *bufio.Scanner) {
 	defer fmt.Println("Работа приложения завершена")
 	for {
-		fmt.Println("\n1 — добавить | 2 — список | 3 — завершить | 4 — удалить | 0 — выход")
+		fmt.Println("\n1 — добавить | 2 — список | 3 — завершить | 4 — удалить | 5 — поиск | 0 — выход")
 		cmd, ok := readLine(scanner, "> ")
 		if !ok || cmd == "0" {
 			return
@@ -128,8 +139,21 @@ func run(store TaskStore, scanner *bufio.Scanner) {
 			}
 			fmt.Printf("Создана задача #%d\n", task.ID)
 		case "2":
-			for _, task := range store.List() {
+			isFirst1 := true
+			isFirst2 := true
+			for _, task := range store.Filter("new") {
+				if isFirst1 {
+					fmt.Println("Незавершённые задачи:")
+				}
 				fmt.Printf("#%d %s [%s], приоритет %d\n", task.ID, task.Title, task.Status, task.Priority)
+				isFirst1 = false
+			}
+			for _, task := range store.Filter("done") {
+				if isFirst2 {
+					fmt.Println("Завершённые задачи:")
+				}
+				fmt.Printf("#%d %s [%s], приоритет %d\n", task.ID, task.Title, task.Status, task.Priority)
+				isFirst2 = false
 			}
 		case "3", "4":
 			raw, ok := readLine(scanner, "ID: ")
@@ -150,6 +174,22 @@ func run(store TaskStore, scanner *bufio.Scanner) {
 			if err == nil {
 				fmt.Println("Готово")
 			}
+		case "5":
+			raw, ok := readLine(scanner, "ID: ")
+			if !ok {
+				return
+			}
+			id, err := strconv.Atoi(raw)
+			if err != nil {
+				fmt.Println("Введите число")
+				continue
+			}
+			task, err := store.Get(id)
+			if err != nil {
+				report(err)
+				continue
+			}
+			fmt.Printf("#%d %s [%s], приоритет %d\n", task.ID, task.Title, task.Status, task.Priority)
 		default:
 			fmt.Println("Неизвестная команда")
 		}
