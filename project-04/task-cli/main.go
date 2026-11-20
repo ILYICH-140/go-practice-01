@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -141,14 +142,22 @@ func run(store TaskStore, scanner *bufio.Scanner) {
 		case "2":
 			isFirst1 := true
 			isFirst2 := true
-			for _, task := range store.Filter("new") {
+			newTasks := store.Filter("new")
+			sort.Slice(newTasks, func(i, j int) bool {
+				return newTasks[i].Priority < newTasks[j].Priority
+			})
+			for _, task := range newTasks {
 				if isFirst1 {
 					fmt.Println("Незавершённые задачи:")
 				}
 				fmt.Printf("#%d %s [%s], приоритет %d\n", task.ID, task.Title, task.Status, task.Priority)
 				isFirst1 = false
 			}
-			for _, task := range store.Filter("done") {
+			doneTasks := store.Filter("done")
+			sort.Slice(doneTasks, func(i, j int) bool {
+				return doneTasks[i].Priority < doneTasks[j].Priority
+			})
+			for _, task := range doneTasks {
 				if isFirst2 {
 					fmt.Println("Завершённые задачи:")
 				}
