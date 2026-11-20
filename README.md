@@ -4,3 +4,5 @@
 - [Практические работы 1-2](project-01-02/README.md)
 - [Практическая работа 3](project-03/README.md)
 - [Практическая работа 4](project-04/README.md)
+- [Практическая работа 5](project-05/README.md)
+- [Практическая работа 6](project-06/README.md)
